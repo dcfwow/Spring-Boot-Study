@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Example For Each</title>
+</head>
+<body>
+<div >
+    <h1>for 循环</h1>
+    <table>
+        <!--iterStat迭代对象的状态变量:
+            index:从0开始计算
+            count：从1开始计算
+            size：大小
+            current：当前迭代变量
+            even/odd:当前循环数是偶数/奇数(从0开始计算)
+            first：当前循环是否是第一个
+            last：当前循环是否是最后一个
+        -->
+        <tr  th:each="user,iterStat : ${users}">
+            <td th:text="${user.name}">neo</td>
+            <td th:text="${user.age}">6</td>
+            <td th:text="${user.pass}">213</td>
+            <td th:text="${iterStat.index}">index</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
