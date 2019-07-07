@@ -58,20 +58,20 @@ public class BaseResult<T> {
     public static <T> BaseResult<T> buildWithParam(ResponseParam param){
         return new BaseResult<>(param.getCode(),param.getMsg());
     }
-}
 
-@Getter
-@Setter
-class ResponseParam{
-    private int code;
-    private String msg;
+    @Getter
+    @Setter
+    public static class ResponseParam{
+        private int code;
+        private String msg;
 
-    private ResponseParam(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
+        private ResponseParam(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
 
-    public static ResponseParam buildParam(int code,String msg){
-        return new ResponseParam(code,msg);
+        public static ResponseParam buildParam(int code,String msg){
+            return new ResponseParam(code,msg);
+        }
     }
 }
