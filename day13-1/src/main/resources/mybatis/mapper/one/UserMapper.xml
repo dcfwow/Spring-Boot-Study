@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.day131.mapper.one.User1Mapper">
+    <resultMap id="BaseResultMap" type="com.zys.day131.model.User">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+        <!--此处使用枚举类型，插入此属性的数据会自动进行校验，若不是枚举的内容则报错-->
+        <result column="user_sex" property="userSex" javaType="com.zys.day131.enums.UserSexEnum" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    </resultMap>
+    <!--提取查询字段-->
+    <sql id="Base_Column_List">
+        id, userName, passWord, user_sex, nick_name
+    </sql>
+    <!--提取查询条件-->
+    <sql id="Base_Where_List">
+        <if test="userName != null and userName != ''">
+            and userName = #{userName}
+        </if>
+        <if test="userSex != null and userSex != ''">
+            and user_sex = #{userSex}
+        </if>
+    </sql>
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+         from users;
+    </select>
+    <select id="getOne" parameterType="Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        FROM users
+        where id = #{id};
+    </select>
+    <insert id="insert" parameterType="com.zys.day131.model.User">
+        insert into
+            users
+            (userName,passWord,user_sex)
+        values
+            (#{userName},#{passWord},#{userSex});
+    </insert>
+    <update id="update" parameterType="com.zys.day131.model.User">
+        update
+            users
+        set
+            <if test="userName != null">userName = #{userName},</if>
+            <if test="passWord != null">passWord = #{passWord},</if>
+            nick_name = #{nickName}
+        where
+            id = #{id};
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from
+            users
+        where
+            id = #{id};
+    </delete>
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.zys.day131.param.UserParam">
+        select
+        <include refid="Base_Column_List" />
+        from users
+        where 1 = 1
+        <include refid="Base_Where_List" />
+        order by id desc
+        limit #{beginLine},#{pageSize}
+    </select>
+    <select id="getCount" resultType="Integer" parameterType="com.zys.day131.param.UserParam">
+        select
+        count(1)
+        from users
+        where 1 = 1
+        <include refid="Base_Where_List" />
+    </select>
+</mapper>
